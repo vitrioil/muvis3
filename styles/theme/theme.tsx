@@ -1,6 +1,13 @@
 import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
 
+import Button from './custom/Button';
+import Input from './custom/Input';
+
 const theme = extendTheme({
+    components: {
+        Button,
+        Input,
+    },
     colors: {
         brand: {
             50: '#e1f2ff',
