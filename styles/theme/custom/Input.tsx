@@ -1,4 +1,3 @@
-
 const Input = {
     baseStyle: {
       field: {
