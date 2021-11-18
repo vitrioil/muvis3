@@ -5,7 +5,7 @@ import { HStack, Box } from "@chakra-ui/layout";
 import Effect from './effect';
 
 const controls: FC = () => {
-    const items = [{id: 1}, {id: 2}, {id: 3}, {id: 4}];
+    const items = [{id: 1}, {id: 2}];
     const maxWidth = "820px";
     const height = "250px";
     const bgColor = "brand.700";

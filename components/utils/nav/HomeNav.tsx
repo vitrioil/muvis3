@@ -2,16 +2,10 @@ import { ReactNode, FC } from 'react';
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
   Link,
   IconButton,
   Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
   Stack,
@@ -27,7 +21,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
     rounded={'md'}
     _hover={{
       textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
+      bg: useColorModeValue('gray.700', 'gray.700'),
     }}
     href={'#'}>
     {children}
@@ -60,10 +54,12 @@ const WithAction: FC = () => {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Button
-              mr={4}>
-                  Login
-            </Button>
+            <Link href="/login">
+              <Button
+                mr={4}>
+                    Login
+              </Button>
+            </Link>
             <Button
               mr={4}>
                   Register

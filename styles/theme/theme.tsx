@@ -4,6 +4,14 @@ import Button from './custom/Button';
 import Input from './custom/Input';
 
 const theme = extendTheme({
+    styles: {
+        global: {
+            body: {
+                bg: "brand.900",
+                color: "white"
+            }
+        },
+    },
     components: {
         Button,
         Input,
