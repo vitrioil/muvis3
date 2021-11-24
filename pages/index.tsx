@@ -10,31 +10,34 @@ import Controls from '../components/visualize/controls'
 import Input from '../components/utils/Input'
 import Player from '../components/visualize/player'
 import HomeNav from '../components/utils/nav/HomeNav';
+import { useBreakpointValue } from '@chakra-ui/media-query'
 
 const Home: NextPage = () => {
-  const [valid, setValid] = useState(false);
+  // const [valid, setValid] = useState(false);
+  const canvasWidth = useBreakpointValue({base: 350, sm: 450, md: 500, xl: 660});
+  const canvasHeight = useBreakpointValue({base: 200, sm: 200, md: 400});
 
   return (
     <>
       <HomeNav />
-      <Grid templateColumns="1fr 1fr" spacing={50} gap={50}>
-        <GridItem ml={170} mt={10}>
-          <Stack spacing={-10}>
-            <Text fontSize="9xl">Visualize</Text>
-            <Text fontSize="9xl">Music</Text>
-            <Text fontSize="5xl">in 3D</Text>
+      <Grid templateAreas={{"base": `"title" "player" "controls" "desc"`, "lg": `"title player" "desc controls"`}}>
+        <GridItem gridArea="title" placeSelf="center">
+          <Stack spacing={{"base": 0, "lg": -10}}>
+            <Text fontSize={{base: "4xl", sm: "4xl", md: "5xl", lg: "7xl"}}>Visualize</Text>
+            <Text fontSize={{base: "4xl", sm: "4xl", md: "5xl", lg: "7xl"}}>Music in 3D</Text>
           </Stack>
         </GridItem>
-        <GridItem placeSelf="center">
-          <Player width={830} height={450} />
+        <GridItem gridArea="player" placeSelf="center">
+          <Player width={canvasWidth ? canvasWidth: 900} height={canvasHeight ? canvasHeight : 400} />
         </GridItem>
-        <GridItem ml={170} mt={20}>
+        <GridItem gridArea="desc" placeSelf="center">
           <Stack>
-            <Text fontSize="2xl">Visualize music in detail with the help of music separation</Text>
-            <Text fontSize="2xl">Apply visual effects to each separated signal</Text>
+            <Text>Test</Text>
+            {/* <Text fontSize="2xl">Visualize music in detail with the help of music separation</Text>
+            <Text fontSize="2xl">Apply visual effects to each separated signal</Text> */}
           </Stack>
         </GridItem>
-        <GridItem placeSelf="center">
+        <GridItem gridArea="controls" placeSelf="center">
           <Controls />
         </GridItem>
       </Grid>

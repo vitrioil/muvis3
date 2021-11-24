@@ -33,7 +33,7 @@ const WithAction: FC = () => {
 
   return (
     <>
-      <Box px={4}>
+      <Box w="100vw" px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -53,18 +53,16 @@ const WithAction: FC = () => {
               ))}
             </HStack>
           </HStack>
-          <Flex alignItems={'center'}>
+          <HStack>
             <Link href="/login">
-              <Button
-                mr={4}>
+              <Button>
                     Login
               </Button>
             </Link>
-            <Button
-              mr={4}>
+            <Button>
                   Register
             </Button>
-          </Flex>
+          </HStack>
         </Flex>
 
         {isOpen ? (
