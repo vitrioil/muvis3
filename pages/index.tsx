@@ -1,13 +1,9 @@
 import type { NextPage } from 'next'
-import { useState } from 'react'
-import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 
 import { Grid, GridItem, Box, HStack, VStack, Stack, Text } from '@chakra-ui/layout'
-import { Button } from '@chakra-ui/button'
 
 import Controls from '../components/visualize/controls'
-import Input from '../components/utils/Input'
 import Player from '../components/visualize/player'
 import HomeNav from '../components/utils/nav/HomeNav';
 import { useBreakpointValue } from '@chakra-ui/media-query'
@@ -28,7 +24,7 @@ const Home: NextPage = () => {
           </Stack>
         </GridItem>
         <GridItem gridArea="player" placeSelf="center">
-          <Player width={canvasWidth ? canvasWidth: 900} height={canvasHeight ? canvasHeight : 400} />
+          <Player width={canvasWidth ? canvasWidth: 660} height={canvasHeight ? canvasHeight : 400} />
         </GridItem>
         <GridItem gridArea="desc" placeSelf="center">
           <Stack>

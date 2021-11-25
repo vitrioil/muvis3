@@ -2,6 +2,7 @@ import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
 
 import Button from './custom/Button';
 import Input from './custom/Input';
+import Container from './custom/Container';
 
 const theme = extendTheme({
     styles: {
@@ -15,6 +16,7 @@ const theme = extendTheme({
     components: {
         Button,
         Input,
+        Container,
     },
     colors: {
         brand: {
