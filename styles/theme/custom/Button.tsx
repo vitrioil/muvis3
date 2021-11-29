@@ -12,6 +12,12 @@ const Button = {
             },
             _active: {
                 bg: "#000c1e"
+            },
+            _disabled: {
+                bg: "#1253b0"
+            },
+            ':disabled:hover': {
+                bg: "#1c6be1"
             }
         }
     },

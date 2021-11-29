@@ -3,6 +3,7 @@ import { extendTheme, withDefaultColorScheme } from "@chakra-ui/react";
 import Button from './custom/Button';
 import Input from './custom/Input';
 import Container from './custom/Container';
+import FormControl from './custom/FormControl';
 
 const theme = extendTheme({
     styles: {
@@ -17,6 +18,7 @@ const theme = extendTheme({
         Button,
         Input,
         Container,
+        FormControl,
     },
     colors: {
         brand: {
