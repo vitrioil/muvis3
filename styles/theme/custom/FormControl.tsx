@@ -1,16 +1,19 @@
 const FormControl = {
-    parts: ["formControl", "formErrorMessage"],
+    parts: ["container", "requiredIndicator", "helperText"],
     baseStyle: {
-        formErrorMessage: {
-            bg: "#000000"
-        },
     },
     variants: {
-        statusForm: {formErrorMessage: {
-            color: "#661200",
-            borderRadius: "8",
-            width: "auto",
-        }}
+        statusForm: {
+            container: {
+                bg: "#000000"
+            },
+            requiredIndicator: {
+                bg: "#000000"
+            },
+            helperText: {
+                bg: "#000000"
+            },
+        }
     }
 };
 
