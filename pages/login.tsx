@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { FC, useState } from 'react';
+import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 
 import { Grid, GridItem, Text, VStack, HStack, Stack, Spacer } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
@@ -8,11 +8,27 @@ import { useBreakpointValue } from '@chakra-ui/media-query';
 import { FormControl, FormLabel, FormErrorMessage, useDisclosure } from '@chakra-ui/react';
 import { Formik, Form, Field, FieldProps } from 'formik';
 
-import Player from '../components/visualize/player';
+import Player from '../components/visualize/Player';
+import Lines from '../components/visualize/three_effects/Lines';
+import SwarmSphere from '../components/visualize/three_effects/SwarmSphere';
+import useKeyPress from '../hooks/useKeyPress';
 
-const RegisterForm: FC<{ onLogin: () => void }> = ({ onLogin }) => {
+import * as THREE from 'three';
 
-    const validateEmail = (value: string) => {
+const RegisterForm: FC<{ onLogin: () => void, emailSpeed: number, setEmailSpeed: Dispatch<SetStateAction<number>>, passwordSpeed: number, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onLogin, emailSpeed, setEmailSpeed, passwordSpeed, setPasswordSpeed }) => {
+
+    const validatePassword = (value: string) => {
+        let error;
+        if (!value) {
+            error = 'Empty value not allowed';
+            setPasswordSpeed(5);
+        } else {
+            setPasswordSpeed(value.length * 2)
+        }
+        return error;
+    }
+
+    const validateConfirmPassword = (value: string) => {
         let error;
         if (!value) {
             error = 'Empty value not allowed';
@@ -20,10 +36,21 @@ const RegisterForm: FC<{ onLogin: () => void }> = ({ onLogin }) => {
         return error;
     }
 
+    const validateEmail = (value: string) => {
+        let error;
+        if (!value) {
+            error = 'Empty value not allowed';
+            setEmailSpeed(5);
+        } else {
+            setEmailSpeed(value.length * 2)
+        }
+        return error;
+    }
+
     return (
         <Formik
             initialValues={{}}
-            isInitialValid={false}
+            validateOnMount={true}
             onSubmit={(values, actions) => {
                 setTimeout(() => {
                     actions.setSubmitting(false)
@@ -50,20 +77,20 @@ const RegisterForm: FC<{ onLogin: () => void }> = ({ onLogin }) => {
                             )}
                         </Field>
                         <Stack w="100%" direction={{ base: "column", xl: "row" }}>
-                            <Field name="password" validate={validateEmail}>
+                            <Field name="password" validate={validatePassword}>
                                 {({ form, field }: FieldProps) => (
                                     <FormControl variant="statusForm" isInvalid={!!(form.errors.password && form.touched.password)}>
                                         <FormLabel htmlFor="password">Password</FormLabel>
-                                        <Input {...field} id="password" />
+                                        <Input {...field} id="password" type="password" />
                                         <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                                     </FormControl>
                                 )}
                             </Field>
-                            <Field name="confirmPassword" validate={validateEmail}>
+                            <Field name="confirmPassword" validate={validateConfirmPassword}>
                                 {({ form, field }: FieldProps) => (
                                     <FormControl variant="statusForm" isInvalid={!!(form.errors.confirmPassword && form.touched.confirmPassword)}>
                                         <FormLabel htmlFor="confirmPassword"> Confirm Password</FormLabel>
-                                        <Input {...field} id="confirmPassword" />
+                                        <Input {...field} id="confirmPassword" type="password" />
                                         <FormErrorMessage>{form.errors.confirmPassword}</FormErrorMessage>
                                     </FormControl>
                                 )}
@@ -90,12 +117,26 @@ const RegisterForm: FC<{ onLogin: () => void }> = ({ onLogin }) => {
     )
 }
 
-const LoginForm: FC<{ onRegister: () => void }> = ({ onRegister }) => {
+const LoginForm: FC<{ onRegister: () => void, emailSpeed: number, setEmailSpeed: Dispatch<SetStateAction<number>>, passwordSpeed: number, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onRegister, emailSpeed, setEmailSpeed, passwordSpeed, setPasswordSpeed  }) => {
+
+    const validatePassword = (value: string) => {
+        let error;
+        if (!value) {
+            error = 'Empty value not allowed';
+            setPasswordSpeed(5);
+        } else {
+            setPasswordSpeed(passwordSpeed + 1)
+        }
+        return error;
+    }
 
     const validateEmail = (value: string) => {
         let error;
         if (!value) {
             error = 'Empty value not allowed';
+            setEmailSpeed(5);
+        } else {
+            setEmailSpeed(emailSpeed + 1)
         }
         return error;
     }
@@ -103,7 +144,7 @@ const LoginForm: FC<{ onRegister: () => void }> = ({ onRegister }) => {
     return (
         <Formik
             initialValues={{}}
-            isInitialValid={false}
+            validateOnMount={true}
             onSubmit={(values, actions) => {
                 setTimeout(() => {
                     actions.setSubmitting(false)
@@ -129,11 +170,11 @@ const LoginForm: FC<{ onRegister: () => void }> = ({ onRegister }) => {
                                 </FormControl>
                             )}
                         </Field>
-                        <Field name="password" validate={validateEmail}>
+                        <Field name="password" validate={validatePassword}>
                             {({ form, field }: FieldProps) => (
                                 <FormControl variant="statusForm" isInvalid={!!(form.errors.password && form.touched.password)}>
                                     <FormLabel htmlFor="password">Password</FormLabel>
-                                    <Input {...field} id="password" />
+                                    <Input {...field} id="password" type="password" />
                                     <FormErrorMessage>{form.errors.password}</FormErrorMessage>
                                 </FormControl>
                             )}
@@ -160,18 +201,34 @@ const LoginForm: FC<{ onRegister: () => void }> = ({ onRegister }) => {
 }
 
 const Login: NextPage = () => {
-    const { isOpen: isLogin, onOpen: onLogin, onClose: onRegister } = useDisclosure();
+    const { isOpen: isRegister, onOpen: onRegister, onClose: onLogin } = useDisclosure();
 
-    const canvasWidth = useBreakpointValue({ base: 350, sm: 450, md: 500, lg: 600, xl: 700, "2xl": 900 });
-    const canvasHeight = useBreakpointValue({ base: 200, sm: 200, md: 400, lg: 500, xl: 600, "2xl": 800 });
+    const [emailSpeed, setEmailSpeed] = useState(5);
+    const [passwordSpeed, setPasswordSpeed] = useState(5);
 
     return (
         <Grid h="100vh" templateAreas={{ base: `"player" "form"`, lg: `"form player"` }} templateColumns={{ base: "1fr", lg: "2fr 3fr", "2xl": "1fr 2fr" }} justifyContent="center">
             <GridItem w="80%" gridArea="form" placeSelf="center">
-                {isLogin ? <LoginForm onRegister={onRegister} /> : <RegisterForm onLogin={onLogin} />}
+                {isRegister ? <RegisterForm
+                                emailSpeed={emailSpeed}
+                                setEmailSpeed={setEmailSpeed}
+                                passwordSpeed={passwordSpeed}
+                                setPasswordSpeed={setPasswordSpeed}
+                                onLogin={onLogin} />
+                            :
+                            <LoginForm
+                                emailSpeed={emailSpeed}
+                                setEmailSpeed={setEmailSpeed}
+                                passwordSpeed={passwordSpeed}
+                                setPasswordSpeed={setPasswordSpeed}
+                                onRegister={onRegister} />}
             </GridItem>
-            <GridItem gridArea="player" placeSelf="center">
-                <Player controlsDisabled width={canvasWidth ? canvasWidth : 660} height={canvasHeight ? canvasHeight : 400} />
+            <GridItem gridArea="player" w={{lg: "95%"}} h={{lg: "100%"}} p={10}>
+                <Player controlsDisabled width="inherit" height="inherit">
+                    <pointLight distance={40} intensity={8} color="lightblue" />
+                    <Lines currentNoLines={1000} maxNoLines={1000} speed={emailSpeed} tempBoxes={new THREE.Object3D()} />
+                    <SwarmSphere count={100} speedVol={passwordSpeed}  />
+                </Player>
             </GridItem>
         </Grid>
     )

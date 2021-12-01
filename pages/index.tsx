@@ -3,8 +3,8 @@ import styles from '../styles/Home.module.css'
 
 import { Grid, GridItem, Box, HStack, VStack, Stack, Text } from '@chakra-ui/layout'
 
-import Controls from '../components/visualize/controls'
-import Player from '../components/visualize/player'
+import Controls from '../components/visualize/Controls'
+import Player from '../components/visualize/Player'
 import HomeNav from '../components/utils/nav/HomeNav';
 import { useBreakpointValue } from '@chakra-ui/media-query'
 

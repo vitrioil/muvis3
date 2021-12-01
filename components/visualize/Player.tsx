@@ -1,4 +1,4 @@
-import { createRef, FC } from "react";
+import React, { createRef, FC } from "react";
 
 import { Box } from "@chakra-ui/layout";
 import { IconButton } from "@chakra-ui/button";
@@ -6,20 +6,17 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { Slider, SliderTrack, SliderFilledTrack, SliderThumb } from "@chakra-ui/slider";
 
 import { Canvas } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
 import { ResponsiveValue } from "@chakra-ui/styled-system";
 
-const player: FC<{width: ResponsiveValue<string | number>, height: ResponsiveValue<string | number>, controlsDisabled?: boolean}> = ({width, height, controlsDisabled}) => {
+const player: FC<{width: ResponsiveValue<string | number>, height: ResponsiveValue<string | number>, controlsDisabled?: boolean, children?: React.ReactNode}> = ({width, height, controlsDisabled, children}) => {
     const canvas = createRef<HTMLCanvasElement>();
 
     return (
-        <Box m={10} h={height} w={width} position="relative">
-            {/* <canvas width={width} height={height} ref={canvas} style={{background: "black", borderRadius: "25px"}} /> */}
+        <Box h={height} w={width} position="relative">
             <Canvas orthographic={false}>
-                <directionalLight color="red" position={[0, 0, 5]} />
-                <mesh>
-                    <boxGeometry />
-                    <meshStandardMaterial />
-                </mesh>
+                <OrbitControls />
+                {children}
             </Canvas>
             {!controlsDisabled ? 
             <>

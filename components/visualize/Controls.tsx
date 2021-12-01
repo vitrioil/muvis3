@@ -2,7 +2,7 @@ import { FC, useCallback, useState } from "react";
 
 import { HStack, Box } from "@chakra-ui/layout";
 
-import Effect from './effect';
+import Effect from './Effect';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from 'immutability-helper'

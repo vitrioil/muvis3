@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import Audio from "./audio";
+import Audio from "./Audio";
 
 import { VStack, Text } from "@chakra-ui/layout";
 
