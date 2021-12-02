@@ -1,17 +1,15 @@
 import type { NextPage } from 'next';
-import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
+import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import { Grid, GridItem, Text, VStack, HStack, Stack, Spacer } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { Input } from "@chakra-ui/input";
-import { useBreakpointValue } from '@chakra-ui/media-query';
 import { FormControl, FormLabel, FormErrorMessage, useDisclosure } from '@chakra-ui/react';
 import { Formik, Form, Field, FieldProps } from 'formik';
 
 import Player from '../components/visualize/Player';
 import Lines from '../components/visualize/three_effects/Lines';
 import SwarmSphere from '../components/visualize/three_effects/SwarmSphere';
-import useKeyPress from '../hooks/useKeyPress';
 
 import * as THREE from 'three';
 
@@ -49,7 +47,7 @@ const RegisterForm: FC<{ onLogin: () => void, emailSpeed: number, setEmailSpeed:
 
     return (
         <Formik
-            initialValues={{}}
+            initialValues={{email: "", password: "", confirmPassword: ""}}
             validateOnMount={true}
             onSubmit={(values, actions) => {
                 setTimeout(() => {
@@ -143,7 +141,7 @@ const LoginForm: FC<{ onRegister: () => void, emailSpeed: number, setEmailSpeed:
 
     return (
         <Formik
-            initialValues={{}}
+            initialValues={{email: "", password: ""}}
             validateOnMount={true}
             onSubmit={(values, actions) => {
                 setTimeout(() => {
