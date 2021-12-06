@@ -14,7 +14,7 @@ const player: FC<{width: ResponsiveValue<string | number>, height: ResponsiveVal
 
     return (
         <Box h={height} w={width} position="relative">
-            <Canvas orthographic={false}>
+            <Canvas orthographic={false} pixelRatio={[1, 4]}>
                 <OrbitControls />
                 {children}
             </Canvas>

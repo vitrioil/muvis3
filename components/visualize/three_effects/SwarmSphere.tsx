@@ -56,12 +56,10 @@ const SwarmSphere: FC<{ count: number, speedVol: number }> = ({ count, speedVol 
         }
     })
     return (
-        <>
-            <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
-                <dodecahedronBufferGeometry attach="geometry" args={[0.01, 0]} />
-                <meshPhongMaterial attach="material" color="red" />
-            </instancedMesh>
-        </>
+        <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
+            <dodecahedronBufferGeometry attach="geometry" args={[0.01, 0]} />
+            <meshPhongMaterial attach="material" color="red" />
+        </instancedMesh>
     )
 }
 

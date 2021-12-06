@@ -1,83 +1,23 @@
-import { ReactNode, FC } from 'react';
-import {
-  Box,
-  Flex,
-  HStack,
-  Link,
-  IconButton,
-  Button,
-  useDisclosure,
-  useColorModeValue,
-  Stack,
-} from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon, MoonIcon } from '@chakra-ui/icons';
+import { IconButton } from '@chakra-ui/button';
+import { SettingsIcon } from '@chakra-ui/icons';
+import { Box, Flex, HStack, Text } from '@chakra-ui/layout';
+import { FC } from 'react';
+import NavLink from './NavLink';
 
-const Links = ['About'];
-
-const NavLink = ({ children }: { children: ReactNode }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={'md'}
-    _hover={{
-      textDecoration: 'none',
-      bg: useColorModeValue('gray.700', 'gray.700'),
-    }}
-    href={'#'}>
-    {children}
-  </Link>
-);
-
-const WithAction: FC = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  return (
-    <>
-      <Box w="100vw" px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-          <IconButton
-            size={'md'}
-            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
-            aria-label={'Open Menu'}
-            display={{ md: 'none' }}
-            onClick={isOpen ? onClose : onOpen}
-          />
-          <HStack spacing={8} alignItems={'center'}>
-            <Box>Logo</Box>
-            <HStack
-              as={'nav'}
-              spacing={4}
-              display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </HStack>
-          </HStack>
-          <HStack>
-            <Link href="/login">
-              <Button>
-                    Login
-              </Button>
-            </Link>
-            <Button>
-                  Register
-            </Button>
-          </HStack>
-        </Flex>
-
-        {isOpen ? (
-          <Box pb={4} display={{ md: 'none' }}>
-            <Stack as={'nav'} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
-              ))}
-            </Stack>
-          </Box>
-        ) : null}
-      </Box>
-    </>
-  );
+const HomeNav: FC = () => {
+    return (
+        <Box px={4} bg="brand.800" m={4} borderRadius={10}>
+            <Flex h={"50px"} alignItems="center" justifyContent="space-between">
+                <HStack as={"nav"}>
+                    <NavLink>Public</NavLink>
+                    <NavLink>About</NavLink>
+                </HStack>
+                <HStack>
+                    <IconButton aria-label="Settings" icon={<SettingsIcon />} borderRadius={50} />
+                </HStack>
+            </Flex>
+        </Box>
+    )
 }
 
-
-export default WithAction;
+export default HomeNav;

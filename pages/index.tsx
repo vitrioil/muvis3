@@ -5,7 +5,7 @@ import { Grid, GridItem, Box, HStack, VStack, Stack, Text } from '@chakra-ui/lay
 
 import Controls from '../components/visualize/Controls'
 import Player from '../components/visualize/Player'
-import HomeNav from '../components/utils/nav/HomeNav';
+import LoginNav from '../components/utils/nav/LoginNav';
 import { useBreakpointValue } from '@chakra-ui/media-query'
 
 const Home: NextPage = () => {
@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <HomeNav />
+      <LoginNav />
       <Grid templateAreas={{"base": `"title" "player" "controls" "desc"`, "lg": `"title player" "desc controls"`}}>
         <GridItem gridArea="title" placeSelf="center">
           <Stack spacing={{"base": 0, "lg": -10}}>

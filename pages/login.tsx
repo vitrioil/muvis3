@@ -13,15 +13,15 @@ import SwarmSphere from '../components/visualize/three_effects/SwarmSphere';
 
 import * as THREE from 'three';
 
-const RegisterForm: FC<{ onLogin: () => void, emailSpeed: number, setEmailSpeed: Dispatch<SetStateAction<number>>, passwordSpeed: number, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onLogin, emailSpeed, setEmailSpeed, passwordSpeed, setPasswordSpeed }) => {
+const RegisterForm: FC<{ onLogin: () => void, setEmailSpeed: Dispatch<SetStateAction<number>>, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onLogin, setEmailSpeed, setPasswordSpeed }) => {
 
     const validatePassword = (value: string) => {
         let error;
         if (!value) {
             error = 'Empty value not allowed';
-            setPasswordSpeed(5);
+            setPasswordSpeed(1);
         } else {
-            setPasswordSpeed(value.length * 2)
+            setPasswordSpeed(value.length)
         }
         return error;
     }
@@ -38,9 +38,9 @@ const RegisterForm: FC<{ onLogin: () => void, emailSpeed: number, setEmailSpeed:
         let error;
         if (!value) {
             error = 'Empty value not allowed';
-            setEmailSpeed(5);
+            setEmailSpeed(1);
         } else {
-            setEmailSpeed(value.length * 2)
+            setEmailSpeed(value.length)
         }
         return error;
     }
@@ -115,15 +115,15 @@ const RegisterForm: FC<{ onLogin: () => void, emailSpeed: number, setEmailSpeed:
     )
 }
 
-const LoginForm: FC<{ onRegister: () => void, emailSpeed: number, setEmailSpeed: Dispatch<SetStateAction<number>>, passwordSpeed: number, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onRegister, emailSpeed, setEmailSpeed, passwordSpeed, setPasswordSpeed  }) => {
+const LoginForm: FC<{ onRegister: () => void, setEmailSpeed: Dispatch<SetStateAction<number>>, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onRegister, setEmailSpeed, setPasswordSpeed  }) => {
 
     const validatePassword = (value: string) => {
         let error;
         if (!value) {
             error = 'Empty value not allowed';
-            setPasswordSpeed(5);
+            setPasswordSpeed(1);
         } else {
-            setPasswordSpeed(passwordSpeed + 1)
+            setPasswordSpeed(value.length)
         }
         return error;
     }
@@ -132,9 +132,9 @@ const LoginForm: FC<{ onRegister: () => void, emailSpeed: number, setEmailSpeed:
         let error;
         if (!value) {
             error = 'Empty value not allowed';
-            setEmailSpeed(5);
+            setEmailSpeed(1);
         } else {
-            setEmailSpeed(emailSpeed + 1)
+            setEmailSpeed(value.length)
         }
         return error;
     }
@@ -201,6 +201,8 @@ const LoginForm: FC<{ onRegister: () => void, emailSpeed: number, setEmailSpeed:
 const Login: NextPage = () => {
     const { isOpen: isRegister, onOpen: onRegister, onClose: onLogin } = useDisclosure();
 
+    const maxLines = 10000;
+
     const [emailSpeed, setEmailSpeed] = useState(5);
     const [passwordSpeed, setPasswordSpeed] = useState(5);
 
@@ -208,24 +210,23 @@ const Login: NextPage = () => {
         <Grid h="100vh" templateAreas={{ base: `"player" "form"`, lg: `"form player"` }} templateColumns={{ base: "1fr", lg: "2fr 3fr", "2xl": "1fr 2fr" }} justifyContent="center">
             <GridItem w="80%" gridArea="form" placeSelf="center">
                 {isRegister ? <RegisterForm
-                                emailSpeed={emailSpeed}
                                 setEmailSpeed={setEmailSpeed}
-                                passwordSpeed={passwordSpeed}
                                 setPasswordSpeed={setPasswordSpeed}
                                 onLogin={onLogin} />
                             :
                             <LoginForm
-                                emailSpeed={emailSpeed}
                                 setEmailSpeed={setEmailSpeed}
-                                passwordSpeed={passwordSpeed}
                                 setPasswordSpeed={setPasswordSpeed}
                                 onRegister={onRegister} />}
             </GridItem>
             <GridItem gridArea="player" w={{lg: "95%"}} h={{lg: "100%"}} p={10}>
                 <Player controlsDisabled width="inherit" height="inherit">
                     <pointLight distance={40} intensity={8} color="lightblue" />
-                    <Lines currentNoLines={1000} maxNoLines={1000} speed={emailSpeed} tempBoxes={new THREE.Object3D()} />
-                    <SwarmSphere count={100} speedVol={passwordSpeed}  />
+                    <Lines currentNoLines={Math.min(maxLines, (emailSpeed * 100 + 500))}
+                           maxNoLines={maxLines}
+                           speed={emailSpeed}
+                           tempBoxes={new THREE.Object3D()} />
+                    <SwarmSphere count={100} speedVol={passwordSpeed * 5}  />
                 </Player>
             </GridItem>
         </Grid>
