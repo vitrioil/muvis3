@@ -4,6 +4,7 @@ import Button from './custom/Button';
 import Input from './custom/Input';
 import Container from './custom/Container';
 import FormControl from './custom/FormControl';
+import Select from './custom/Select';
 
 const theme = extendTheme({
     styles: {
@@ -19,6 +20,7 @@ const theme = extendTheme({
         Input,
         Container,
         FormControl,
+        Select,
     },
     colors: {
         brand: {

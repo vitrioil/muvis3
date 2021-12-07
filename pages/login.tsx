@@ -12,6 +12,7 @@ import Lines from '../components/visualize/three_effects/Lines';
 import SwarmSphere from '../components/visualize/three_effects/SwarmSphere';
 
 import * as THREE from 'three';
+import { useRouter } from 'next/dist/client/router';
 
 const RegisterForm: FC<{ onLogin: () => void, setEmailSpeed: Dispatch<SetStateAction<number>>, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onLogin, setEmailSpeed, setPasswordSpeed }) => {
 
@@ -47,7 +48,7 @@ const RegisterForm: FC<{ onLogin: () => void, setEmailSpeed: Dispatch<SetStateAc
 
     return (
         <Formik
-            initialValues={{email: "", password: "", confirmPassword: ""}}
+            initialValues={{ email: "", password: "", confirmPassword: "" }}
             validateOnMount={true}
             onSubmit={(values, actions) => {
                 setTimeout(() => {
@@ -115,7 +116,8 @@ const RegisterForm: FC<{ onLogin: () => void, setEmailSpeed: Dispatch<SetStateAc
     )
 }
 
-const LoginForm: FC<{ onRegister: () => void, setEmailSpeed: Dispatch<SetStateAction<number>>, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onRegister, setEmailSpeed, setPasswordSpeed  }) => {
+const LoginForm: FC<{ onRegister: () => void, setEmailSpeed: Dispatch<SetStateAction<number>>, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onRegister, setEmailSpeed, setPasswordSpeed }) => {
+    const router = useRouter();
 
     const validatePassword = (value: string) => {
         let error;
@@ -141,11 +143,11 @@ const LoginForm: FC<{ onRegister: () => void, setEmailSpeed: Dispatch<SetStateAc
 
     return (
         <Formik
-            initialValues={{email: "", password: ""}}
+            initialValues={{ email: "", password: "" }}
             validateOnMount={true}
             onSubmit={(values, actions) => {
                 setTimeout(() => {
-                    actions.setSubmitting(false)
+                    router.push({ pathname: "/home" })
                 }, 1000)
             }}>
             {({ isSubmitting, isValid }) => (
@@ -210,23 +212,23 @@ const Login: NextPage = () => {
         <Grid h="100vh" templateAreas={{ base: `"player" "form"`, lg: `"form player"` }} templateColumns={{ base: "1fr", lg: "2fr 3fr", "2xl": "1fr 2fr" }} justifyContent="center">
             <GridItem w="80%" gridArea="form" placeSelf="center">
                 {isRegister ? <RegisterForm
-                                setEmailSpeed={setEmailSpeed}
-                                setPasswordSpeed={setPasswordSpeed}
-                                onLogin={onLogin} />
-                            :
-                            <LoginForm
-                                setEmailSpeed={setEmailSpeed}
-                                setPasswordSpeed={setPasswordSpeed}
-                                onRegister={onRegister} />}
+                    setEmailSpeed={setEmailSpeed}
+                    setPasswordSpeed={setPasswordSpeed}
+                    onLogin={onLogin} />
+                    :
+                    <LoginForm
+                        setEmailSpeed={setEmailSpeed}
+                        setPasswordSpeed={setPasswordSpeed}
+                        onRegister={onRegister} />}
             </GridItem>
-            <GridItem gridArea="player" w={{lg: "95%"}} h={{lg: "100%"}} p={10}>
+            <GridItem gridArea="player" w={{ lg: "95%" }} h={{ lg: "100%" }} p={10}>
                 <Player controlsDisabled width="inherit" height="inherit">
                     <pointLight distance={40} intensity={8} color="lightblue" />
                     <Lines currentNoLines={Math.min(maxLines, (emailSpeed * 100 + 500))}
-                           maxNoLines={maxLines}
-                           speed={emailSpeed}
-                           tempBoxes={new THREE.Object3D()} />
-                    <SwarmSphere count={100} speedVol={passwordSpeed * 5}  />
+                        maxNoLines={maxLines}
+                        speed={emailSpeed}
+                        tempBoxes={new THREE.Object3D()} />
+                    <SwarmSphere count={100} speedVol={passwordSpeed * 5} />
                 </Player>
             </GridItem>
         </Grid>
