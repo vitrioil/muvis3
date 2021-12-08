@@ -7,16 +7,17 @@ import {
   IconButton,
   Button,
   useDisclosure,
-  useColorModeValue,
   Stack,
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon, MoonIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, SunIcon, MoonIcon } from '@chakra-ui/icons';
+import { useColorMode } from '@chakra-ui/color-mode';
 import NavLink from './NavLink';
 
 const Links = ['About'];
 
 const WithAction: FC = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <>
@@ -41,6 +42,9 @@ const WithAction: FC = () => {
             </HStack>
           </HStack>
           <HStack>
+            <IconButton onClick={toggleColorMode}
+                        aria-label="Theme"
+                        icon={colorMode === "light" ? <MoonIcon />:  <SunIcon />} borderRadius={50} />
             <Link href="/login">
               <Button>
                     Login

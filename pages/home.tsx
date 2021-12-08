@@ -1,22 +1,28 @@
 import { FC } from 'react';
-import { Box, Grid, GridItem, VStack, HStack, Spacer, Text, Center } from '@chakra-ui/layout';
 import type { NextPage } from 'next'
 
-import HomeNav from '../components/utils/nav/HomeNav';
+import { Box, Grid, GridItem, VStack, HStack, Spacer, Text, Center } from '@chakra-ui/layout';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
+import { useColorMode, useColorModeValue } from '@chakra-ui/color-mode';
 import { SearchIcon, CheckIcon } from '@chakra-ui/icons';
 import { Button } from '@chakra-ui/button';
 import { Select } from '@chakra-ui/react';
 
+import HomeNav from '../components/utils/nav/HomeNav';
+
 const ProjectCard: FC = () => {
+    const bgTop =  useColorModeValue("brand.600", "brand.800");
+    const bgBottom = useColorModeValue("brand.500", "brand.900");
+    const tickColor = useColorModeValue("green.500", "green.400");
+
     return (
         <VStack minH="200px" minW="250px"
-                bgGradient="linear(to-b, brand.800 0%, brand.900 100%)"
+                bgGradient={`linear(to-b, ${bgTop} 0%, ${bgBottom} 100%)`}
                 borderRadius={15}
                 justifyContent="space-between">
             <HStack pt={5} w="100%" px={10}>
                 <Text fontSize="xl" mr="auto">Project Name</Text>
-                <Text fontSize="sm" mr={5} mt={2}>Ready {<CheckIcon color="green.500" />}</Text>
+                <Text fontSize="sm" mr={5} mt={2}>Ready {<CheckIcon color={tickColor} />}</Text>
             </HStack>
             <HStack pb={5} w="100%" px={10}>
                 <Text fontSize="sm" mr="auto">Edited now</Text>
@@ -27,8 +33,13 @@ const ProjectCard: FC = () => {
 }
 
 const TemplateCard: FC = () => {
+    const bgTop =  useColorModeValue("brand.600", "brand.800");
+    const bgBottom = useColorModeValue("brand.500", "brand.900");
+
     return (
-        <Center minH="200px" w="100%" bgGradient="linear(to-b, brand.800 0%, brand.900 100%)" borderRadius={15}>
+        <Center minH="200px" w="100%"
+                bgGradient={`linear(to-b, ${bgTop} 0%, ${bgBottom} 100%)`}
+                borderRadius={15}>
             <Text fontSize="2xl">Upload</Text>
         </Center>
     )
@@ -45,7 +56,7 @@ const ProjectGrid: FC = () => {
                     <InputLeftElement>
                         <SearchIcon />
                     </InputLeftElement>
-                    <Input bg="brand.800" />
+                    <Input />
                 </InputGroup>
                 <Spacer />
                 <Box w="min(300px, 50%)">
@@ -88,6 +99,9 @@ const TemplateProject: FC = () => {
 }
 
 const Home: NextPage = () => {
+    const bgTop =  useColorModeValue("brand.400", "brand.700");
+    const bgBottom = useColorModeValue("brand.300", "brand.800");
+
     return (
         <Grid gap={5} p={5}
               minH="100vh"
@@ -100,13 +114,13 @@ const Home: NextPage = () => {
             </GridItem>
             <GridItem overflowY="auto"
                       gridArea="projects"
-                      bgGradient="linear(to-b, brand.700 0%, brand.800 100%)"
+                      bgGradient={`linear(to-b, ${bgTop} 0%, ${bgBottom} 100%)`}
                       borderRadius={20}>
                 <ProjectGrid />
             </GridItem>
             <GridItem overflowY="auto"
                       gridArea="templates"
-                      bgGradient="linear(to-b, brand.700 0%, brand.800 100%)"
+                      bgGradient={`linear(to-b, ${bgTop} 0%, ${bgBottom} 100%)`}
                       borderRadius={20}>
                 <TemplateProject />
             </GridItem>

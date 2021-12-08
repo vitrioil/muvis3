@@ -6,9 +6,10 @@ import Effect from './Effect';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import update from 'immutability-helper'
+import { useColorModeValue } from "@chakra-ui/color-mode";
 
 const Controls: FC<{fullSize?: boolean}> = ({fullSize}) => {
-    const bgColor = "brand.700";
+    const bgColor = useColorModeValue("brand.400", "brand.700");
     const [items, setItems] = useState([{id: 1, name: "Vocals"}, {id: 2, name: "Accompaniment"}, {id: 3, name: "Other"}])
     const moveCard = useCallback(
       (dragIndex: number, hoverIndex: number) => {

@@ -1,23 +1,29 @@
+import { mode, StyleConfig } from "@chakra-ui/theme-tools";
+
 const Button = {
     variants: {
-        solid: {
-            bg: "#093c7e"
-        },
-        alternative: {
-            bg: "#00244d",
+        solid: (props: StyleConfig) => ({
+            bg: mode("brand.300", "brand.700")(props),
+            color: mode("black", "white")(props),
+            _active: {
+                color: mode("white", "black")(props)
+            }
+        }),
+        alternative: (props: StyleConfig) => ({
+            bg: mode("brand.100", "brand.800")(props),
             _hover: {
-                bg: "#1253b0"
+                bg: "brand.600"
             },
             _active: {
-                bg: "#000c1e"
+                bg: "brand.900"
             },
             _disabled: {
-                bg: "#1253b0"
+                bg: "brand.600"
             },
             ':disabled:hover': {
-                bg: "#1c6be1"
+                bg: "brand.500"
             }
-        }
+        })
     },
     defaultProps: {
         variant: "solid",

@@ -1,8 +1,10 @@
 import type { NextPage } from 'next';
+import { useRouter } from 'next/dist/client/router';
 import { Dispatch, FC, SetStateAction, useState } from 'react';
 
 import { Grid, GridItem, Text, VStack, HStack, Stack, Spacer } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
+import { useColorModeValue } from "@chakra-ui/color-mode";
 import { Input } from "@chakra-ui/input";
 import { FormControl, FormLabel, FormErrorMessage, useDisclosure } from '@chakra-ui/react';
 import { Formik, Form, Field, FieldProps } from 'formik';
@@ -12,9 +14,11 @@ import Lines from '../components/visualize/three_effects/Lines';
 import SwarmSphere from '../components/visualize/three_effects/SwarmSphere';
 
 import * as THREE from 'three';
-import { useRouter } from 'next/dist/client/router';
 
 const RegisterForm: FC<{ onLogin: () => void, setEmailSpeed: Dispatch<SetStateAction<number>>, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onLogin, setEmailSpeed, setPasswordSpeed }) => {
+    const router = useRouter();
+    const bgTop =  useColorModeValue("brand.600", "brand.700");
+    const bgBottom = useColorModeValue("brand.500", "brand.800");
 
     const validatePassword = (value: string) => {
         let error;
@@ -52,13 +56,13 @@ const RegisterForm: FC<{ onLogin: () => void, setEmailSpeed: Dispatch<SetStateAc
             validateOnMount={true}
             onSubmit={(values, actions) => {
                 setTimeout(() => {
-                    actions.setSubmitting(false)
+                    router.push("/login")
                 }, 1000)
             }}>
             {({ isSubmitting, isValid }) => (
                 <Form>
                     <VStack
-                        bg="brand.700"
+                        bgGradient={`linear(to-b, ${bgTop} 0%, ${bgBottom} 100%)`}
                         minH={{ base: "100%", md: "90vh" }}
                         w={{ base: "80vw", md: "100%" }}
                         borderRadius="20px"
@@ -98,7 +102,6 @@ const RegisterForm: FC<{ onLogin: () => void, setEmailSpeed: Dispatch<SetStateAc
                         <Spacer />
                         <Button h={50}
                             w="100%"
-                            variant="alternative"
                             isDisabled={!isValid}
                             isLoading={isSubmitting}
                             type="submit">
@@ -107,7 +110,7 @@ const RegisterForm: FC<{ onLogin: () => void, setEmailSpeed: Dispatch<SetStateAc
                         <Spacer />
                         <HStack w="100%" mr="auto" mt="auto">
                             <Text>Have an account?</Text>
-                            <Button size="sm" variant="alternative" onClick={onLogin}>Login</Button>
+                            <Button size="sm" onClick={onLogin}>Login</Button>
                         </HStack>
                     </VStack>
                 </Form>
@@ -118,6 +121,8 @@ const RegisterForm: FC<{ onLogin: () => void, setEmailSpeed: Dispatch<SetStateAc
 
 const LoginForm: FC<{ onRegister: () => void, setEmailSpeed: Dispatch<SetStateAction<number>>, setPasswordSpeed: Dispatch<SetStateAction<number>> }> = ({ onRegister, setEmailSpeed, setPasswordSpeed }) => {
     const router = useRouter();
+    const bgTop =  useColorModeValue("brand.600", "brand.700");
+    const bgBottom = useColorModeValue("brand.500", "brand.800");
 
     const validatePassword = (value: string) => {
         let error;
@@ -153,7 +158,7 @@ const LoginForm: FC<{ onRegister: () => void, setEmailSpeed: Dispatch<SetStateAc
             {({ isSubmitting, isValid }) => (
                 <Form>
                     <VStack
-                        bg="brand.700"
+                        bgGradient={`linear(to-b, ${bgTop} 0%, ${bgBottom} 100%)`}
                         minH={{ base: "100%", md: "90vh" }}
                         w={{ base: "80vw", md: "100%" }}
                         borderRadius="20px"
@@ -182,7 +187,6 @@ const LoginForm: FC<{ onRegister: () => void, setEmailSpeed: Dispatch<SetStateAc
                         <Spacer />
                         <Button h={50}
                             w="100%"
-                            variant="alternative"
                             isDisabled={!isValid}
                             isLoading={isSubmitting}
                             type="submit">
@@ -191,7 +195,7 @@ const LoginForm: FC<{ onRegister: () => void, setEmailSpeed: Dispatch<SetStateAc
                         <Spacer />
                         <HStack w="100%" mr="auto" mt="auto">
                             <Text>No account?</Text>
-                            <Button size="sm" variant="alternative" onClick={onRegister}>Register</Button>
+                            <Button size="sm" onClick={onRegister}>Register</Button>
                         </HStack>
                     </VStack>
                 </Form>
@@ -209,7 +213,8 @@ const Login: NextPage = () => {
     const [passwordSpeed, setPasswordSpeed] = useState(5);
 
     return (
-        <Grid h="100vh" templateAreas={{ base: `"player" "form"`, lg: `"form player"` }} templateColumns={{ base: "1fr", lg: "2fr 3fr", "2xl": "1fr 2fr" }} justifyContent="center">
+        <Grid h="100vh" templateAreas={{ base: `"player" "form"`, lg: `"form player"` }}
+              templateColumns={{ base: "1fr", lg: "2fr 3fr", "2xl": "1fr 2fr" }} justifyContent="center">
             <GridItem w="80%" gridArea="form" placeSelf="center">
                 {isRegister ? <RegisterForm
                     setEmailSpeed={setEmailSpeed}

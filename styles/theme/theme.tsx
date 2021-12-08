@@ -5,15 +5,20 @@ import Input from './custom/Input';
 import Container from './custom/Container';
 import FormControl from './custom/FormControl';
 import Select from './custom/Select';
+import { mode, StyleConfig } from "@chakra-ui/theme-tools";
 
 const theme = extendTheme({
+    initialColorMode: "dark",
     styles: {
-        global: {
+        global: (props: StyleConfig) => ({
             body: {
-                bg: "brand.900",
-                color: "white"
+                bg: mode("brand.100", "brand.900")(props),
+                color: mode("black", "white")(props)
+            },
+            canvas: {
+                bg: mode("whiteAlpha.400", "")(props)
             }
-        },
+        }),
     },
     components: {
         Button,

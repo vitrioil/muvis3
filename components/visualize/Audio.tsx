@@ -5,9 +5,10 @@ import { ItemTypes } from "./ItemType";
 
 import { HStack, Text } from "@chakra-ui/layout";
 import { DragHandleIcon } from '@chakra-ui/icons'
+import { useColorModeValue } from "@chakra-ui/color-mode";
 
 const Audio: FC<{id: number, index: number, name: string, moveCard: (dragIndex: number, hoverIndex: number) => void}> = ({id, index, name, moveCard}) => {
-    const bgColor ="brand.700";
+    const bgColor = useColorModeValue("brand.400", "brand.700");
 
     const ref = useRef<HTMLDivElement>(null)
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -86,8 +87,8 @@ const Audio: FC<{id: number, index: number, name: string, moveCard: (dragIndex: 
 
     return (
         <HStack ref={ref} minW={{base: "200px", md: "300px"}} h={{base: "50px", md: "75px"}} borderRadius="20px" bgColor={bgColor}>
-            <Text w="100%" paddingLeft="15px" color="white" fontWeight={600} textAlign="start">{name}</Text>
-            <DragHandleIcon boxSize={7} padding="0 15px 15px 0" color="white" marginBottom="auto" />
+            <Text w="100%" paddingLeft="15px" fontWeight={600} textAlign="start">{name}</Text>
+            <DragHandleIcon boxSize={7} padding="0 15px 15px 0" marginBottom="auto" />
         </HStack>
     )
 }
