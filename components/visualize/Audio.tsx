@@ -86,7 +86,7 @@ const Audio: FC<{id: number, index: number, name: string, moveCard: (dragIndex: 
     drag(drop(ref));
 
     return (
-        <HStack ref={ref} minW={{base: "200px", md: "300px"}} h={{base: "50px", md: "75px"}} borderRadius="20px" bgColor={bgColor}>
+        <HStack ref={ref} minW= "300px" minH="75px" borderRadius="20px" bgColor={bgColor}>
             <Text w="100%" paddingLeft="15px" fontWeight={600} textAlign="start">{name}</Text>
             <DragHandleIcon boxSize={7} padding="0 15px 15px 0" marginBottom="auto" />
         </HStack>

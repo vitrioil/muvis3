@@ -1,6 +1,6 @@
 import { FC, useCallback, useState } from "react";
 
-import { HStack, Box } from "@chakra-ui/layout";
+import { HStack, Box, Text } from "@chakra-ui/layout";
 
 import Effect from './Effect';
 import { DndProvider } from "react-dnd";
@@ -28,8 +28,11 @@ const Controls: FC<{fullSize?: boolean}> = ({fullSize}) => {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <Box maxW={{base: "85vw", lg: fullSize ? "85vw": "40vw"}} maxH={{base: 400, md: 250}} bg={bgColor} borderRadius={15} m={{base: 5, sm: 10}}>
-                <HStack p={{base: "30px", lg: "40px"}} spacing={{base: "30px", lg: "40px"}} overflowX="auto">
+            <Box bg={bgColor} borderRadius={15}>
+            <Text px="10px" fontSize="2xl">
+              Stems
+            </Text>
+                <HStack p="10px" spacing="40px" overflowX="auto">
                     {items.map((item, index) => <Effect key={index} id={item.id} index={index} name={item.name} moveCard={moveCard} />)}
                 </HStack>
             </Box>

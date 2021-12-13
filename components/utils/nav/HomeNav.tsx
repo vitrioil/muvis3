@@ -18,7 +18,7 @@ const HomeNav: FC = () => {
     const navColor = useColorModeValue("brand.300", "brand.700");
 
     return (
-        <Flex px={4} py={1} bg={navColor} borderRadius={10} alignItems="center" justifyContent="space-between">
+        <Flex px={4} py={1} bg={navColor} borderRadius="xl" alignItems="center" justifyContent="space-between">
             <HStack as={"nav"}>
                 <NavLink>Public</NavLink>
                 <NavLink>About</NavLink>

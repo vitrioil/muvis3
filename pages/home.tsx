@@ -3,10 +3,10 @@ import type { NextPage } from 'next'
 
 import { Box, Grid, GridItem, VStack, HStack, Spacer, Text, Center } from '@chakra-ui/layout';
 import { Input, InputGroup, InputLeftElement } from '@chakra-ui/input';
-import { useColorMode, useColorModeValue } from '@chakra-ui/color-mode';
+import { useColorModeValue } from '@chakra-ui/color-mode';
 import { SearchIcon, CheckIcon } from '@chakra-ui/icons';
 import { Button } from '@chakra-ui/button';
-import { Select } from '@chakra-ui/react';
+import { Select, Link } from '@chakra-ui/react';
 
 import HomeNav from '../components/utils/nav/HomeNav';
 
@@ -26,7 +26,9 @@ const ProjectCard: FC = () => {
             </HStack>
             <HStack pb={5} w="100%" px={10}>
                 <Text fontSize="sm" mr="auto">Edited now</Text>
-                <Button size="sm">Open</Button>
+                <Link href="/project">
+                    <Button size="sm">Open</Button>
+                </Link>
             </HStack>
         </VStack>
     )
@@ -37,7 +39,7 @@ const TemplateCard: FC = () => {
     const bgBottom = useColorModeValue("brand.500", "brand.900");
 
     return (
-        <Center minH="200px" w="100%"
+        <Center minH="150px" w="100%"
                 bgGradient={`linear(to-b, ${bgTop} 0%, ${bgBottom} 100%)`}
                 borderRadius={15}>
             <Text fontSize="2xl">Upload</Text>
@@ -104,11 +106,11 @@ const Home: NextPage = () => {
 
     return (
         <Grid gap={5} p={5}
-              minH="100vh"
+              h="100%"
               maxH="100vh"
-              templateAreas={{base: `"nav" "projects" "templates"`, lg: `"nav nav" "projects templates"`}}
-              templateRows={{base: "5vh 500px 500px", lg: "5vh 1fr"}}
-              templateColumns={{base: "1fr", lg: "3fr 1fr"}}>
+              templateAreas={{base: `"nav" "projects" "templates"`, md: `"nav nav" "projects templates"`}}
+              templateRows={{base: "5vh 500px 500px", md: "5vh 1fr"}}
+              templateColumns={{base: "1fr", md: "3fr 1fr"}}>
             <GridItem w="100%" gridArea="nav" placeSelf="center">
                 <HomeNav />
             </GridItem>
