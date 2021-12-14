@@ -1,8 +1,9 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useState, FC } from "react";
 
 import { useColorModeValue } from "@chakra-ui/color-mode";
-import { Grid, GridItem } from "@chakra-ui/layout";
+import { Grid, GridItem, VStack } from "@chakra-ui/layout";
+import { Tabs, TabList, TabPanels, Tab, TabPanel, Box, Text, Divider, Input } from '@chakra-ui/react'
 import * as THREE from 'three';
 
 import HomeNav from "../components/utils/nav/HomeNav";
@@ -11,6 +12,71 @@ import Lines from "../components/visualize/three_effects/Lines";
 import SwarmSphere from "../components/visualize/three_effects/SwarmSphere";
 import Controls from "../components/visualize/Controls";
 
+
+
+const Settings: FC = () => {
+  const [tabIndex, setTabIndex] = useState(0)
+    return (
+        <Box p={5}>
+            <Text fontSize="2xl">Settings</Text>
+            <Tabs isFitted m={5} onChange={(index) => setTabIndex(index)} variant="enclosed">
+                <TabList>
+                    <Tab>Effects</Tab>
+                    <Tab>Stems</Tab>
+                </TabList>
+                <TabPanels p=''>
+                    <TabPanel>
+                        <Tabs isFitted onChange={(index) => setTabIndex(index)} variant="enclosed">
+                            <TabList>
+                                <Tab>Line</Tab>
+                                <Tab>Sphere</Tab>
+                                <Tab>Other</Tab>
+                            </TabList>
+                            <TabPanels>
+                                <TabPanel>
+                                    <Text fontSize="xl">General</Text>
+                                    <Divider />
+                                    <VStack overflowY="auto">
+                                        <Text fontSize="lg">Color</Text>
+                                        <Input variant="flushed" />
+                                        <Text fontSize="lg">No. of Lines</Text>
+                                        <Input variant="flushed" />
+                                        <Text fontSize="lg">Speed</Text>
+                                        <Input variant="flushed" />
+                                        <Text fontSize="lg">Direction</Text>
+                                        <Input variant="flushed" />
+                                    </VStack>
+                                </TabPanel>
+                                <TabPanel>
+                                    <Text fontSize="xl">General</Text>
+                                    <Divider />
+                                </TabPanel>
+                                <TabPanel>
+                                    <Text fontSize="xl">General</Text>
+                                    <Divider />
+                                </TabPanel>
+                            </TabPanels>
+                        </Tabs>
+                    </TabPanel>
+                    <TabPanel>
+                        <Tabs isFitted onChange={(index) => setTabIndex(index)} variant="enclosed">
+                            <TabList>
+                                <Tab>Vocals</Tab>
+                                <Tab>Accompaniment</Tab>
+                                <Tab>Other</Tab>
+                            </TabList>
+                            <TabPanels p=''>
+                                <TabPanel>Vocals</TabPanel>
+                                <TabPanel>Accompaniment</TabPanel>
+                                <TabPanel>Other</TabPanel>
+                            </TabPanels>
+                        </Tabs>
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
+        </Box>
+    )
+}
 
 const Project: NextPage = () => {
     const bgTop =  useColorModeValue("brand.400", "brand.700");
@@ -41,9 +107,10 @@ const Project: NextPage = () => {
                     <SwarmSphere count={100} speedVol={passwordSpeed * 5} />
                 </Player>
             </GridItem>
-            <GridItem w="100%" h="100%" borderRadius="xl" 
+            <GridItem borderRadius="xl" 
                       bgGradient={`linear(to-b, ${bgTop} 0%, ${bgBottom} 100%)`}
-                      gridArea="settings">
+                      gridArea="settings" overflowY="auto">
+                <Settings />
             </GridItem>
             <GridItem overflowX="auto" gridArea="controls">
                 <Controls fullSize />
