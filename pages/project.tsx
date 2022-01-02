@@ -92,7 +92,7 @@ const Project: NextPage = () => {
               h="100%"
               maxH="100vh"
               templateAreas={{base: `"nav" "player" "controls"`, md: `"nav nav" "player settings" "controls controls"`}}
-              templateRows="5vh 3fr minmax(2fr, 300px)"
+              templateRows="5vh 1fr 200px"
               templateColumns={{base: "1fr", md: "3fr 1fr"}}>
             <GridItem w="100%" gridArea="nav" placeSelf="center">
                 <HomeNav />
@@ -112,7 +112,7 @@ const Project: NextPage = () => {
                       gridArea="settings" overflowY="auto">
                 <Settings />
             </GridItem>
-            <GridItem overflowX="auto" gridArea="controls">
+            <GridItem overflow="auto" gridArea="controls">
                 <Controls fullSize />
             </GridItem>
         </Grid>

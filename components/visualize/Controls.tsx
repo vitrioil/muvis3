@@ -10,7 +10,7 @@ import { useColorModeValue } from "@chakra-ui/color-mode";
 
 const Controls: FC<{fullSize?: boolean}> = ({fullSize}) => {
     const bgColor = useColorModeValue("brand.400", "brand.700");
-    const [items, setItems] = useState([{id: 1, name: "Vocals"}, {id: 2, name: "Accompaniment"}, {id: 3, name: "Other"}])
+    const [items, setItems] = useState([{id: 1, name: "Vocals", path: "/overkill_accompaniment.mp3"}, {id: 2, name: "Accompaniment", path: "/overkill_vocal.mp3"}])//, {id: 3, name: "Other"}])
     const moveCard = useCallback(
       (dragIndex: number, hoverIndex: number) => {
         const dragCard = items[dragIndex]
@@ -33,7 +33,7 @@ const Controls: FC<{fullSize?: boolean}> = ({fullSize}) => {
               Stems
             </Text>
                 <HStack p="10px" spacing="40px" overflowX="auto">
-                    {items.map((item, index) => <Effect key={index} id={item.id} index={index} name={item.name} moveCard={moveCard} />)}
+                    {items.map((item, index) => <Effect key={index} id={item.id} index={index} name={item.name} path={item.path} moveCard={moveCard} />)}
                 </HStack>
             </Box>
         </DndProvider>

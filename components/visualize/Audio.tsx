@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useRef, useState, useEffect } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd'
 import { XYCoord } from 'dnd-core'
 import { ItemTypes } from "./ItemType";
@@ -7,8 +7,56 @@ import { HStack, Text } from "@chakra-ui/layout";
 import { DragHandleIcon } from '@chakra-ui/icons'
 import { useColorModeValue } from "@chakra-ui/color-mode";
 
-const Audio: FC<{id: number, index: number, name: string, moveCard: (dragIndex: number, hoverIndex: number) => void}> = ({id, index, name, moveCard}) => {
+import useAudioContext from '../../hooks/useAudioContext';
+
+const AudioFC: FC<{id: number, index: number, name: string, path: string, moveCard: (dragIndex: number, hoverIndex: number) => void}> = ({id, index, name, path, moveCard}) => {
     const bgColor = useColorModeValue("brand.400", "brand.700");
+    const { audioContext } = useAudioContext();
+    const [analyser, setAnalyser] = useState<AnalyserNode>();
+    const [audio, setAudio] = useState<HTMLAudioElement>();
+    const [source, setSource] = useState<MediaElementAudioSourceNode>();
+    const [data, setData] = useState<Uint8Array>();
+    const [avgVal, setAvgVal] = useState<number>(0);
+    const [n, setN] = useState<number>(0);
+    const [avgCummVal, setAvgCummVal] = useState<number>(0);
+
+    useEffect(() => {
+        if(audioContext) {
+            const audio = new Audio(path);
+            setAnalyser(audioContext.createAnalyser());
+            setAudio(audio);
+            setSource(audioContext.createMediaElementSource(audio));
+        }
+    }, []);
+
+    useEffect(() => {
+        if(analyser && source && audioContext) {
+            setData(new Uint8Array(analyser.frequencyBinCount));
+            source.connect(analyser);
+            analyser.connect(audioContext.destination)
+
+            requestAnimationFrame(tick)
+            audio?.play();
+        }
+    }, [source])
+
+    const tick = () => {
+        if(analyser) {
+            const array = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(array);
+
+            const newAvgVal = array.reduce((a, b) => a + b) / array.length
+            // setAvgVal(Math.abs(newAvgVal));
+            // setN(n + 1);
+
+            if(n % 60 == 0) {
+                // setAvgCummVal(0)
+            } else {
+                // setAvgCummVal(avgCummVal + (newAvgVal - avgCummVal) / (n + 1))
+            }
+            requestAnimationFrame(tick);
+        }
+    }
 
     const ref = useRef<HTMLDivElement>(null)
     const [{ isDragging }, drag] = useDrag(() => ({
@@ -26,7 +74,8 @@ const Audio: FC<{id: number, index: number, name: string, moveCard: (dragIndex: 
             isDragging: monitor.isDragging(),
             handlerId: monitor.getHandlerId(),
         }),
-    }))
+    }));
+
     const [{ handlerId }, drop] = useDrop({
         accept: ItemTypes.Audio,
         collect(monitor) {
@@ -93,4 +142,4 @@ const Audio: FC<{id: number, index: number, name: string, moveCard: (dragIndex: 
     )
 }
 
-export default Audio;
+export default AudioFC;
