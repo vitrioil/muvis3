@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useState, Dispatch, SetStateAction } from "react";
 
 import { HStack, Box, Text } from "@chakra-ui/layout";
 
@@ -8,9 +8,12 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import update from 'immutability-helper'
 import { useColorModeValue } from "@chakra-ui/color-mode";
 
-const Controls: FC<{fullSize?: boolean}> = ({fullSize}) => {
+const Controls: FC<{fullSize?: boolean, isPlaying: boolean,
+                  setPlaying: Dispatch<SetStateAction<boolean>>,
+                  setLineSpeed: Dispatch<SetStateAction<number>>,
+                  setSphereSpeed: Dispatch<SetStateAction<number>>}> = ({fullSize, isPlaying, setPlaying, setLineSpeed, setSphereSpeed}) => {
     const bgColor = useColorModeValue("brand.400", "brand.700");
-    const [items, setItems] = useState([{id: 1, name: "Vocals", path: "/overkill_accompaniment.mp3"}, {id: 2, name: "Accompaniment", path: "/overkill_vocal.mp3"}])//, {id: 3, name: "Other"}])
+    const [items, setItems] = useState([{id: 1, name: "Vocals", path: "/overkill_accompaniment.mp3", setter: setLineSpeed}, {id: 2, name: "Accompaniment", path: "/overkill_vocal.mp3", setter: setSphereSpeed}])//, {id: 3, name: "Other"}])
     const moveCard = useCallback(
       (dragIndex: number, hoverIndex: number) => {
         const dragCard = items[dragIndex]
@@ -33,7 +36,10 @@ const Controls: FC<{fullSize?: boolean}> = ({fullSize}) => {
               Stems
             </Text>
                 <HStack p="10px" spacing="40px" overflowX="auto">
-                    {items.map((item, index) => <Effect key={index} id={item.id} index={index} name={item.name} path={item.path} moveCard={moveCard} />)}
+                    {items.map((item, index) => <Effect isPlaying={isPlaying} key={index}
+                                                        id={item.id} index={index} name={item.name}
+                                                        path={item.path} moveCard={moveCard}
+                                                        setSpeed={item.setter} />)}
                 </HStack>
             </Box>
         </DndProvider>

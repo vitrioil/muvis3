@@ -1,4 +1,4 @@
-import { FC, useRef, useState, useEffect } from "react";
+import { FC, useRef, Dispatch, useState, useEffect, SetStateAction } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd'
 import { XYCoord } from 'dnd-core'
 import { ItemTypes } from "./ItemType";
@@ -9,7 +9,9 @@ import { useColorModeValue } from "@chakra-ui/color-mode";
 
 import useAudioContext from '../../hooks/useAudioContext';
 
-const AudioFC: FC<{id: number, index: number, name: string, path: string, moveCard: (dragIndex: number, hoverIndex: number) => void}> = ({id, index, name, path, moveCard}) => {
+const AudioFC: FC<{id: number, index: number, name: string,
+                   path: string, moveCard: (dragIndex: number, hoverIndex: number) => void,
+                   isPlaying: boolean, setSpeed: Dispatch<SetStateAction<number>>}> = ({id, index, name, path, moveCard, isPlaying, setSpeed}) => {
     const bgColor = useColorModeValue("brand.400", "brand.700");
     const { audioContext } = useAudioContext();
     const [analyser, setAnalyser] = useState<AnalyserNode>();
@@ -36,9 +38,20 @@ const AudioFC: FC<{id: number, index: number, name: string, path: string, moveCa
             analyser.connect(audioContext.destination)
 
             requestAnimationFrame(tick)
-            audio?.play();
+            // audio?.play();
         }
     }, [source])
+
+    useEffect(() => {
+        if(!audio) {
+            return;
+        }
+        if(isPlaying) {
+            audio.play()
+        } else {
+            audio.pause()
+        }
+    }, [audio, isPlaying])
 
     const tick = () => {
         if(analyser) {
@@ -46,14 +59,15 @@ const AudioFC: FC<{id: number, index: number, name: string, path: string, moveCa
             analyser.getByteFrequencyData(array);
 
             const newAvgVal = array.reduce((a, b) => a + b) / array.length
-            // setAvgVal(Math.abs(newAvgVal));
-            // setN(n + 1);
+            setAvgVal(Math.abs(newAvgVal));
+            setN(n + 1);
 
-            if(n % 60 == 0) {
+            if(n % 60 === 0) {
                 // setAvgCummVal(0)
             } else {
-                // setAvgCummVal(avgCummVal + (newAvgVal - avgCummVal) / (n + 1))
+                setAvgCummVal(avgCummVal + (newAvgVal - avgCummVal) / (n + 1))
             }
+            setSpeed(newAvgVal)
             requestAnimationFrame(tick);
         }
     }
