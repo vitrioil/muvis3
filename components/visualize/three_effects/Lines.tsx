@@ -2,8 +2,10 @@ import { FC, useMemo, useRef } from 'react';
 
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { useAppSelector } from '../../../redux/hook';
 
 const Lines: FC<{ currentNoLines: number, maxNoLines: number, tempBoxes: THREE.Object3D, speed: number }> = ({ currentNoLines, maxNoLines, tempBoxes, speed }) => {
+    const count = useAppSelector((state) => state.effect.sphereCount);
     const material = useMemo(() => new THREE.MeshLambertMaterial({ color: 'blue' }), []);
     const boxesGeometry = new THREE.BoxBufferGeometry(0.01, 0.01, 10);
     const ref = useRef<THREE.InstancedMesh>();

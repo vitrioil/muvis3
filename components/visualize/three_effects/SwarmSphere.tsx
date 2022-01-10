@@ -1,8 +1,12 @@
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { FC, useRef, useMemo } from 'react';
+import { useAppSelector } from '../../../redux/hook';
 
-const SwarmSphere: FC<{ count: number, speedVol: number }> = ({ count, speedVol }) => {
+const SwarmSphere: FC = () => {
+    const count = useAppSelector((state) => state.effect.sphereCount);
+    const speedVol = useAppSelector((state) => state.effect.sphereSpeed);
+
     const mesh = useRef<THREE.InstancedMesh>()
     const { size, viewport } = useThree()
     const aspect = size.width / viewport.width

@@ -11,6 +11,7 @@ import Player from "../components/visualize/Player";
 import Lines from "../components/visualize/three_effects/Lines";
 import SwarmSphere from "../components/visualize/three_effects/SwarmSphere";
 import Controls from "../components/visualize/Controls";
+import { useAppSelector } from "../redux/hook";
 
 
 
@@ -81,12 +82,13 @@ const Settings: FC = () => {
 const Project: NextPage = () => {
     const bgTop =  useColorModeValue("brand.400", "brand.700");
     const bgBottom = useColorModeValue("brand.300", "brand.800");
-    const [isPlaying, setPlaying] = useState(false);
 
     const maxLines = 500;
 
     const [lineSpeed, setLineSpeed] = useState(5);
     const [sphereSpeed, setSphereSpeed] = useState(5);
+
+    const newLineSpeed = useAppSelector((state) => state.effect.lineSpeed);
 
     return (
         <Grid gap={{base: 0, md: 5}} p={5}
@@ -99,13 +101,13 @@ const Project: NextPage = () => {
                 <HomeNav />
             </GridItem>
             <GridItem w="100%" h="100%" gridArea="player">
-                <Player isPlaying={isPlaying} setPlaying={setPlaying} width="inherit" height="inherit">
+                <Player width="inherit" height="inherit">
                     <pointLight distance={40} intensity={8} color="lightblue" />
                     <Lines currentNoLines={Math.min(maxLines, (lineSpeed * 100 + 500))}
                         maxNoLines={maxLines}
-                        speed={lineSpeed * 5}
+                        speed={newLineSpeed * 2}
                         tempBoxes={new THREE.Object3D()} />
-                    <SwarmSphere count={100} speedVol={sphereSpeed} />
+                    <SwarmSphere />
                 </Player>
             </GridItem>
             <GridItem borderRadius="xl" 
@@ -114,7 +116,7 @@ const Project: NextPage = () => {
                 <Settings />
             </GridItem>
             <GridItem overflow="auto" gridArea="controls">
-                <Controls isPlaying={isPlaying} setPlaying={setPlaying} fullSize setLineSpeed={setLineSpeed} setSphereSpeed={setSphereSpeed} />
+                <Controls fullSize setLineSpeed={setLineSpeed} setSphereSpeed={setSphereSpeed} />
             </GridItem>
         </Grid>
     )

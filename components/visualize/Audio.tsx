@@ -8,10 +8,11 @@ import { DragHandleIcon } from '@chakra-ui/icons'
 import { useColorModeValue } from "@chakra-ui/color-mode";
 
 import useAudioContext from '../../hooks/useAudioContext';
+import { useAppSelector } from "../../redux/hook";
 
 const AudioFC: FC<{id: number, index: number, name: string,
                    path: string, moveCard: (dragIndex: number, hoverIndex: number) => void,
-                   isPlaying: boolean, setSpeed: Dispatch<SetStateAction<number>>}> = ({id, index, name, path, moveCard, isPlaying, setSpeed}) => {
+                   setSpeed: Dispatch<SetStateAction<number>>}> = ({id, index, name, path, moveCard, setSpeed}) => {
     const bgColor = useColorModeValue("brand.400", "brand.700");
     const { audioContext } = useAudioContext();
     const [analyser, setAnalyser] = useState<AnalyserNode>();
@@ -22,6 +23,8 @@ const AudioFC: FC<{id: number, index: number, name: string,
     const [n, setN] = useState<number>(0);
     const [avgCummVal, setAvgCummVal] = useState<number>(0);
 
+    const isPlaying = useAppSelector((state) => state.audio.isPlaying);
+
     useEffect(() => {
         if(audioContext) {
             const audio = new Audio(path);
@@ -29,7 +32,7 @@ const AudioFC: FC<{id: number, index: number, name: string,
             setAudio(audio);
             setSource(audioContext.createMediaElementSource(audio));
         }
-    }, []);
+    }, [audioContext, path]);
 
     useEffect(() => {
         if(analyser && source && audioContext) {
@@ -40,7 +43,7 @@ const AudioFC: FC<{id: number, index: number, name: string,
             requestAnimationFrame(tick)
             // audio?.play();
         }
-    }, [source])
+    }, [source, analyser, audioContext])
 
     useEffect(() => {
         if(!audio) {

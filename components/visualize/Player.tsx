@@ -9,19 +9,36 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { ResponsiveValue } from "@chakra-ui/styled-system";
 
+import { setPlaying } from "../../redux/slice/audio";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { ReactReduxContext, Provider } from 'react-redux';
+
 const Player: FC<{width: ResponsiveValue<string | number>, height: ResponsiveValue<string | number>,
-                  controlsDisabled?: boolean, children?: React.ReactNode, isPlaying: boolean,
-                  setPlaying: Dispatch<SetStateAction<boolean>>}> = ({width, height, controlsDisabled, children, isPlaying, setPlaying}) => {
+                  controlsDisabled?: boolean, children?: React.ReactNode}> = ({width, height, controlsDisabled, children}) => {
 
     const [showPlayButton, setShowPlayButton] = useState(false);
+    const isPlaying = useAppSelector((state) => state.audio.isPlaying);
+    const dispatch = useAppDispatch();
 
     return (
         <Box h={height} w={width} position="relative" onMouseEnter={() => setShowPlayButton(true)} onMouseLeave={() => setShowPlayButton(false)}>
-            <Canvas orthographic={false} pixelRatio={[1, 4]}>
+            <ReactReduxContext.Consumer>
+                {
+                    ({store}) => (
+                        <Canvas orthographic={false} pixelRatio={[1, 4]}>
+                            <Provider store={store}>
+                                <OrbitControls />
+                                {children}
+                            </Provider>
+                        </Canvas>
+                    )
+                }
+            </ReactReduxContext.Consumer>
+            {/* <Canvas orthographic={false} pixelRatio={[1, 4]}>
                 <OrbitControls />
                 {children}
-            </Canvas>
-            <IconButton onClick={() => setPlaying(!isPlaying)}
+            </Canvas> */}
+            <IconButton onClick={() => dispatch(setPlaying(!isPlaying))}
                         aria-label="Play / Pause"
                         position="absolute"
                         top="50%" left="50%"
