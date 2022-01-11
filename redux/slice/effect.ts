@@ -14,7 +14,7 @@ interface EffectState {
 const initialState: EffectState = {
     lineSpeed: 5,
     maxLines: 500,
-    currentLines: 100,
+    currentLines: 200,
 
     sphereSpeed: 5,
     sphereCount: 100
@@ -26,6 +26,9 @@ export const effectSlice = createSlice({
     reducers: {
         setLineSpeed: (state, action: PayloadAction<number>) => {
             state.lineSpeed = action.payload;
+        },
+        setCurrentLine: (state, action: PayloadAction<number>) => {
+            state.currentLines = Math.min(state.maxLines, action.payload);
         },
         setSphereSpeed: (state, action: PayloadAction<number>) => {
             state.sphereSpeed = action.payload;

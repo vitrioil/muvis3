@@ -8,11 +8,10 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import update from 'immutability-helper'
 import { useColorModeValue } from "@chakra-ui/color-mode";
 
-const Controls: FC<{fullSize?: boolean,
-                  setLineSpeed: Dispatch<SetStateAction<number>>,
-                  setSphereSpeed: Dispatch<SetStateAction<number>>}> = ({fullSize, setLineSpeed, setSphereSpeed}) => {
+const Controls: FC = () => {
     const bgColor = useColorModeValue("brand.400", "brand.700");
-    const [items, setItems] = useState([{id: 1, name: "Vocals", path: "/overkill_accompaniment.mp3", setter: setLineSpeed}, {id: 2, name: "Accompaniment", path: "/overkill_vocal.mp3", setter: setSphereSpeed}])//, {id: 3, name: "Other"}])
+    const setStub = () => {};
+    const [items, setItems] = useState([{id: 1, name: "Vocals", path: "/overkill_accompaniment.mp3", setter: setStub}, {id: 2, name: "Accompaniment", path: "/overkill_vocal.mp3", setter: setStub}])//, {id: 3, name: "Other"}])
     const moveCard = useCallback(
       (dragIndex: number, hoverIndex: number) => {
         const dragCard = items[dragIndex]

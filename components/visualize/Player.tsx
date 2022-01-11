@@ -1,4 +1,4 @@
-import React, { useState, FC, SetStateAction, Dispatch } from "react";
+import React, { useState, FC } from "react";
 
 import { Box } from "@chakra-ui/layout";
 import { IconButton } from "@chakra-ui/button";
@@ -34,10 +34,6 @@ const Player: FC<{width: ResponsiveValue<string | number>, height: ResponsiveVal
                     )
                 }
             </ReactReduxContext.Consumer>
-            {/* <Canvas orthographic={false} pixelRatio={[1, 4]}>
-                <OrbitControls />
-                {children}
-            </Canvas> */}
             <IconButton onClick={() => dispatch(setPlaying(!isPlaying))}
                         aria-label="Play / Pause"
                         position="absolute"

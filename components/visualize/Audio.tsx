@@ -1,4 +1,4 @@
-import { FC, useRef, Dispatch, useState, useEffect, SetStateAction } from "react";
+import { FC, useRef, useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useDrag, useDrop, DropTargetMonitor } from 'react-dnd'
 import { XYCoord } from 'dnd-core'
 import { ItemTypes } from "./ItemType";
@@ -18,8 +18,6 @@ const AudioFC: FC<{id: number, index: number, name: string,
     const [analyser, setAnalyser] = useState<AnalyserNode>();
     const [audio, setAudio] = useState<HTMLAudioElement>();
     const [source, setSource] = useState<MediaElementAudioSourceNode>();
-    const [data, setData] = useState<Uint8Array>();
-    const [avgVal, setAvgVal] = useState<number>(0);
     const [n, setN] = useState<number>(0);
     const [avgCummVal, setAvgCummVal] = useState<number>(0);
 
@@ -36,12 +34,11 @@ const AudioFC: FC<{id: number, index: number, name: string,
 
     useEffect(() => {
         if(analyser && source && audioContext) {
-            setData(new Uint8Array(analyser.frequencyBinCount));
+            // setData(new Uint8Array(analyser.frequencyBinCount));
             source.connect(analyser);
             analyser.connect(audioContext.destination)
 
             requestAnimationFrame(tick)
-            // audio?.play();
         }
     }, [source, analyser, audioContext])
 
@@ -62,7 +59,7 @@ const AudioFC: FC<{id: number, index: number, name: string,
             analyser.getByteFrequencyData(array);
 
             const newAvgVal = array.reduce((a, b) => a + b) / array.length
-            setAvgVal(Math.abs(newAvgVal));
+            // setAvgVal(Math.abs(newAvgVal));
             setN(n + 1);
 
             if(n % 60 === 0) {

@@ -83,13 +83,6 @@ const Project: NextPage = () => {
     const bgTop =  useColorModeValue("brand.400", "brand.700");
     const bgBottom = useColorModeValue("brand.300", "brand.800");
 
-    const maxLines = 500;
-
-    const [lineSpeed, setLineSpeed] = useState(5);
-    const [sphereSpeed, setSphereSpeed] = useState(5);
-
-    const newLineSpeed = useAppSelector((state) => state.effect.lineSpeed);
-
     return (
         <Grid gap={{base: 0, md: 5}} p={5}
               h="100%"
@@ -103,10 +96,7 @@ const Project: NextPage = () => {
             <GridItem w="100%" h="100%" gridArea="player">
                 <Player width="inherit" height="inherit">
                     <pointLight distance={40} intensity={8} color="lightblue" />
-                    <Lines currentNoLines={Math.min(maxLines, (lineSpeed * 100 + 500))}
-                        maxNoLines={maxLines}
-                        speed={newLineSpeed * 2}
-                        tempBoxes={new THREE.Object3D()} />
+                    <Lines tempBoxes={new THREE.Object3D()} />
                     <SwarmSphere />
                 </Player>
             </GridItem>
@@ -116,7 +106,7 @@ const Project: NextPage = () => {
                 <Settings />
             </GridItem>
             <GridItem overflow="auto" gridArea="controls">
-                <Controls fullSize setLineSpeed={setLineSpeed} setSphereSpeed={setSphereSpeed} />
+                <Controls />
             </GridItem>
         </Grid>
     )
