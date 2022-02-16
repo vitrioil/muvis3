@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+interface EffectSpeed {
+    effectName: string,
+    effectSpeed: number
+}
+
 // Define a type for the slice state
 interface EffectState {
     lineSpeed: number,
@@ -33,9 +38,16 @@ export const effectSlice = createSlice({
         setSphereSpeed: (state, action: PayloadAction<number>) => {
             state.sphereSpeed = action.payload;
         },
+        setEffectSpeed: (state, action: PayloadAction<EffectSpeed>) => {
+            if(action.payload.effectName.toLowerCase() === "line") {
+                state.lineSpeed = action.payload.effectSpeed;
+            } else if(action.payload.effectName.toLowerCase() === "sphere") {
+                state.sphereSpeed = action.payload.effectSpeed;
+            }
+        }
     },
 });
 
-export const { setLineSpeed, setSphereSpeed } = effectSlice.actions;
+export const { setLineSpeed, setSphereSpeed, setEffectSpeed } = effectSlice.actions;
 
 export default effectSlice.reducer;

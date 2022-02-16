@@ -8,18 +8,21 @@ import { DragHandleIcon } from '@chakra-ui/icons'
 import { useColorModeValue } from "@chakra-ui/color-mode";
 
 import useAudioContext from '../../hooks/useAudioContext';
-import { useAppSelector } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import effect, { setEffectSpeed } from "../../redux/slice/effect";
 
 const AudioFC: FC<{id: number, index: number, name: string,
                    path: string, moveCard: (dragIndex: number, hoverIndex: number) => void,
-                   setSpeed: Dispatch<SetStateAction<number>>}> = ({id, index, name, path, moveCard, setSpeed}) => {
+                   effectName: string}> = ({id, index, name, path, moveCard, effectName}) => {
     const bgColor = useColorModeValue("brand.400", "brand.700");
+    const dispatch = useAppDispatch();
     const { audioContext } = useAudioContext();
     const [analyser, setAnalyser] = useState<AnalyserNode>();
     const [audio, setAudio] = useState<HTMLAudioElement>();
     const [source, setSource] = useState<MediaElementAudioSourceNode>();
     const [n, setN] = useState<number>(0);
     const [avgCummVal, setAvgCummVal] = useState<number>(0);
+    const effectNameRef = useRef<string>(effectName);
 
     const isPlaying = useAppSelector((state) => state.audio.isPlaying);
 
@@ -53,6 +56,10 @@ const AudioFC: FC<{id: number, index: number, name: string,
         }
     }, [audio, isPlaying])
 
+    useEffect(() => {
+        effectNameRef.current = effectName;
+    }, [effectName])
+
     const tick = () => {
         if(analyser) {
             const array = new Uint8Array(analyser.frequencyBinCount);
@@ -67,7 +74,7 @@ const AudioFC: FC<{id: number, index: number, name: string,
             } else {
                 setAvgCummVal(avgCummVal + (newAvgVal - avgCummVal) / (n + 1))
             }
-            setSpeed(newAvgVal)
+            dispatch(setEffectSpeed({effectSpeed: newAvgVal, effectName: effectNameRef.current}));
             requestAnimationFrame(tick);
         }
     }
@@ -150,7 +157,7 @@ const AudioFC: FC<{id: number, index: number, name: string,
 
     return (
         <HStack ref={ref} minW= "300px" minH="75px" borderRadius="20px" bgColor={bgColor}>
-            <Text w="100%" paddingLeft="15px" fontWeight={600} textAlign="start">{name}</Text>
+            <Text w="100%" paddingLeft="15px" fontWeight={600} textAlign="start">{name} - {effectName}</Text>
             <DragHandleIcon boxSize={7} padding="0 15px 15px 0" marginBottom="auto" />
         </HStack>
     )
