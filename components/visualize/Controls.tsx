@@ -13,7 +13,7 @@ const Controls: FC<{fullSize?: boolean, isPlaying: boolean,
                   setLineSpeed: Dispatch<SetStateAction<number>>,
                   setSphereSpeed: Dispatch<SetStateAction<number>>}> = ({fullSize, isPlaying, setPlaying, setLineSpeed, setSphereSpeed}) => {
     const bgColor = useColorModeValue("brand.400", "brand.700");
-    const [items, setItems] = useState([{id: 1, name: "Vocals", path: "/overkill_accompaniment.mp3", setter: setLineSpeed}, {id: 2, name: "Accompaniment", path: "/overkill_vocal.mp3", setter: setSphereSpeed}])//, {id: 3, name: "Other"}])
+    const [items, setItems] = useState([{id: 1, name: "Vocals", path: "/accompaniment.mp3", setter: setLineSpeed}, {id: 2, name: "Accompaniment", path: "/vocal.mp3", setter: setSphereSpeed}])//, {id: 3, name: "Other"}])
     const moveCard = useCallback(
       (dragIndex: number, hoverIndex: number) => {
         const dragCard = items[dragIndex]

@@ -1,34 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Music Visualization 3D using react-three-fiber.
 
-## Getting Started
+This is just an example project.
 
-First, run the development server:
+# Setup
+Keep two audio files: `vocal.mp3` and `accompaniment.mp3` in [public](./public/).
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+> Use any signal separation API. Example: [signal_separation](https://github.com/vitrioil/signal_separation)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Working
+This project uses react three fiber for 3D visualization.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Essentially it requires a source (e.g. audio file). Different effects, default consisting of lines and sphere "move" with the source.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+In case of an audio signal, if audio amplitude goes up then the sphere radius increases or number of lines increases.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Example Login Screen with 3D visualization.
+![Empty Login](./static/empty_login_example.png)
 
-## Learn More
+Speed and Content dependent on form values.
+Here the source is the input form text.
+![Filled Login](./static/filled_login_example.png)
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Player where effect intensity is dependent on music amplitude.
+Example: If vocals are intense then line effect will be more promiment which makes the music "feel alive".
+![Example Player](./static/player_example.png)

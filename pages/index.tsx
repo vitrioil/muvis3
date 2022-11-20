@@ -24,17 +24,17 @@ const Home: NextPage = () => {
           </Stack>
         </GridItem>
         <GridItem gridArea="player" placeSelf="center">
-          <Player width={canvasWidth ? canvasWidth: 660} height={canvasHeight ? canvasHeight : 400} />
+          {/* <Player width={canvasWidth ? canvasWidth: 660} height={canvasHeight ? canvasHeight : 400} /> */}
         </GridItem>
-        <GridItem gridArea="desc" placeSelf="center">
-          <Stack>
-            <Text>Test</Text>
+        {/* <GridItem gridArea="desc" placeSelf="center"> */}
+          {/* <Stack> */}
+            {/* <Text>Test</Text> */}
             {/* <Text fontSize="2xl">Visualize music in detail with the help of music separation</Text>
             <Text fontSize="2xl">Apply visual effects to each separated signal</Text> */}
-          </Stack>
-        </GridItem>
+          {/* </Stack> */}
+        {/* </GridItem> */}
         <GridItem gridArea="controls" placeSelf="center">
-          <Controls />
+          {/* <Controls /> */}
         </GridItem>
       </Grid>
     </>

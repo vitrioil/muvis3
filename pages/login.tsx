@@ -227,7 +227,7 @@ const Login: NextPage = () => {
                         onRegister={onRegister} />}
             </GridItem>
             <GridItem gridArea="player" w={{ lg: "95%" }} h={{ lg: "100%" }} p={10}>
-                <Player controlsDisabled width="inherit" height="inherit">
+                <Player controlsDisabled width="inherit" height="inherit" isPlaying={true} setPlaying={() => {}}>
                     <pointLight distance={40} intensity={8} color="lightblue" />
                     <Lines currentNoLines={Math.min(maxLines, (emailSpeed * 100 + 500))}
                         maxNoLines={maxLines}
